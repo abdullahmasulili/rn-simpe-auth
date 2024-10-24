@@ -8,12 +8,14 @@ export const AuthContext = createContext({
   handleSetCurrentUser: () => {},
   handleSetIsAuthenticated: () => {},
   handleSetLoading: () => {},
+  handleSetAccessToken: () => {},
 });
 
 const ACTION_TYPE = {
   SET_USER: 'SET_USER',
   SET_IS_AUTHENTICATED: 'SET_IS_AUTHENTICATED',
   SET_LOADING: 'SET_LOADING',
+  SET_ACCESS_TOKEN: 'SET_ACCESS_TOKEN',
 };
 
 function AuthReducer(state, action) {
@@ -40,6 +42,13 @@ function AuthReducer(state, action) {
       return {
         ...state,
         loading,
+      };
+    case ACTION_TYPE.SET_ACCESS_TOKEN:
+      const accessToken = payload;
+
+      return {
+        ...state,
+        accessToken,
       };
   }
 
@@ -81,6 +90,16 @@ export default function AuthProvider({ children }) {
     [authDispatch],
   );
 
+  const handleSetAccessToken = useCallback(
+    function handleSetLoading(bool) {
+      authDispatch({
+        type: ACTION_TYPE.SET_IS_AUTHENTICATED,
+        payload: bool,
+      });
+    },
+    [authDispatch],
+  );
+
   const contextValue = {
     currentUser: authState.currentUser,
     isAuthenticated: authState.isAuthenticated,
@@ -89,6 +108,7 @@ export default function AuthProvider({ children }) {
     handleSetCurrentUser,
     handleSetIsAuthenticated,
     handleSetLoading,
+    handleSetAccessToken,
   };
 
   return (
