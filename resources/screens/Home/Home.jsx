@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { Appbar, Avatar, Card } from 'react-native-paper';
+import { AuthContext } from '../../context/auth-context';
 
 function ListItem({ data }) {
   return (
@@ -17,8 +18,15 @@ function ListItem({ data }) {
   );
 }
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [users, setUsers] = useState(null);
+  const {
+    accessToken,
+    handleSetIsAuthenticated,
+    handleSetLoading,
+    isAuthenticated,
+  } = useContext(AuthContext);
+
   async function fetchUsers() {
     try {
       const response = await fetch('https://reqres.in/api/users?per_page=100');
@@ -40,6 +48,26 @@ export default function Home() {
       fetchUsers();
     }
   }, [users]);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = accessToken;
+      handleSetIsAuthenticated(token ? true : false);
+      handleSetLoading(false);
+    };
+
+    checkAuth();
+
+    if (!isAuthenticated) {
+      navigation.navigate('Login');
+    }
+  }, [
+    accessToken,
+    handleSetIsAuthenticated,
+    handleSetLoading,
+    navigation,
+    isAuthenticated,
+  ]);
 
   return (
     <>

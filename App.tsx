@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import MainStack from './resources/router/Stack';
 import { PaperProvider } from 'react-native-paper';
+import AuthProvider from './resources/context/auth-context';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -19,7 +20,9 @@ function App(): React.JSX.Element {
   return (
     <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
       <PaperProvider>
-        <MainStack />
+        <AuthProvider>
+          <MainStack />
+        </AuthProvider>
       </PaperProvider>
     </NavigationContainer>
   );
