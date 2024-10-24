@@ -11,7 +11,6 @@ import {
   useColorScheme,
 } from 'react-native';
 import MainStack from './resources/router/Stack';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PaperProvider } from 'react-native-paper';
 
 function App(): React.JSX.Element {
@@ -19,11 +18,9 @@ function App(): React.JSX.Element {
 
   return (
     <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
-      <SafeAreaProvider>
-        <PaperProvider>
-          <MainStack />
-        </PaperProvider>
-      </SafeAreaProvider>
+      <PaperProvider>
+        <MainStack />
+      </PaperProvider>
     </NavigationContainer>
   );
 }
