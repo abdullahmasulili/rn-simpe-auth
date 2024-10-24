@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 export default function MainStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Login"
       screenOptions={{ headerShown: false, gestureEnabled: false }}>
       {screens.map(screen => (
         <Stack.Screen
