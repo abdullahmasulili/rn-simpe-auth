@@ -91,7 +91,7 @@ export default function AuthProvider({ children }) {
   );
 
   const handleSetAccessToken = useCallback(
-    function handleSetLoading(bool) {
+    function handleSetAccessToken(bool) {
       authDispatch({
         type: ACTION_TYPE.SET_IS_AUTHENTICATED,
         payload: bool,
