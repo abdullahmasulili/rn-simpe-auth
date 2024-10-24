@@ -33,6 +33,7 @@ export default function Login({ navigation }) {
       setLoading(false);
     }
   }
+
   return (
     <KeyboardAvoidingView style={styles.rootContainer}>
       <View style={styles.container}>

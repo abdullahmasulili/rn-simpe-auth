@@ -6,8 +6,14 @@ async function login({ email, password }) {
   return user;
 }
 
+async function signUp({ email, password }) {
+  const { user } = await auth().createUserWithEmailAndPassword(email, password);
+
+  return user;
+}
+
 async function logout() {
   await auth().signOut();
 }
 
-export { login, logout };
+export { login, logout, signUp };
