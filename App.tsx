@@ -5,29 +5,24 @@
  * @format
  */
 
-import { NavigationContainer } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import {
   useColorScheme,
 } from 'react-native';
-
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
 import MainStack from './resources/router/Stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { PaperProvider } from 'react-native-paper';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
       <SafeAreaProvider>
-        <MainStack />
+        <PaperProvider>
+          <MainStack />
+        </PaperProvider>
       </SafeAreaProvider>
     </NavigationContainer>
   );
