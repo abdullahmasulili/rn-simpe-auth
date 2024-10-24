@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Appbar, Avatar, Card } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 function ListItem({ data }) {
   return (
@@ -10,6 +8,7 @@ function ListItem({ data }) {
       <Card.Title
         title={`${data.first_name} ${data.last_name}`}
         subtitle={data.email}
+        // eslint-disable-next-line react/no-unstable-nested-components
         left={props => (
           <Avatar.Image {...props} source={{ uri: data.avatar }} />
         )}
