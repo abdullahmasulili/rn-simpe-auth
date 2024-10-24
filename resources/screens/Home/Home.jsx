@@ -1,7 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
-import { Appbar, Avatar, Card } from 'react-native-paper';
+import {
+  Appbar,
+  Avatar,
+  Card,
+  Dialog,
+  Portal,
+  ProgressBar,
+} from 'react-native-paper';
 import { AuthContext } from '../../context/auth-context';
+import { logout } from '../../lib/firebaseAuth';
 
 function ListItem({ data }) {
   return (
@@ -20,6 +28,7 @@ function ListItem({ data }) {
 
 export default function Home({ navigation }) {
   const [users, setUsers] = useState(null);
+  const [loading, setLoading] = useState(false);
   const {
     accessToken,
     handleSetIsAuthenticated,
@@ -40,6 +49,19 @@ export default function Home({ navigation }) {
       setUsers(resData.data);
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async function handleSignOut() {
+    setLoading(true);
+
+    try {
+      await logout();
+      navigation.navigate('Login');
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
     }
   }
 
@@ -73,13 +95,21 @@ export default function Home({ navigation }) {
     <>
       <Appbar.Header>
         <Appbar.Content title="Users List" />
-        <Appbar.Action icon="logout" />
+        <Appbar.Action icon="logout" onPress={handleSignOut} />
       </Appbar.Header>
       <FlatList
         data={users}
         keyExtractor={item => item.id}
         renderItem={({ item }) => <ListItem data={item} />}
       />
+      <Portal>
+        <Dialog visible={loading} dismissable={false}>
+          <Dialog.Title>Signing Out</Dialog.Title>
+          <Dialog.Content>
+            <ProgressBar indeterminate />
+          </Dialog.Content>
+        </Dialog>
+      </Portal>
     </>
   );
 }
